@@ -71,3 +71,8 @@ Permissões definidas no backend (ex.: `payments:create`). Auditoria obrigatóri
 - `npm test`: testes (Vitest). `npm run build -w backend` e `npm run start -w backend` para o compilado.
 - Documentação OpenAPI em `/api/v1/docs` (só fora de produção). Health em `/api/v1/health`.
 - Logs: nunca registar cabeçalhos, cookies nem query strings; mensagens de erro ao cliente sem detalhes internos.
+- Base de dados (Prisma 7, adaptador pg): `npm run db:generate -w backend` (obrigatório antes de typecheck/build), `db:migrate` (dev), `db:deploy` (aplica migrações existentes), `db:status`. Cliente gerado em `backend/src/generated/` (fora do Git).
+- Migrações com restrições que o Prisma não modela: criar com `--create-only`, editar o SQL e só depois aplicar.
+- Tabelas: `users`, `sessions` (guarda hash do token), `audit_log` (só de acréscimo, com trigger). Utilizadores não se apagam, desativam-se.
+- Testes de integração: só contra `sinapse_test` em localhost (recusam outra base). Variáveis em `backend/.env`: `DATABASE_URL`, `TEST_DATABASE_URL`.
+- Erros da base de dados: registar só o nome/código, nunca parâmetros nem mensagens completas (podem conter dados pessoais).

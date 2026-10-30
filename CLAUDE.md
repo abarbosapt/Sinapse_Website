@@ -67,3 +67,7 @@ Permissões definidas no backend (ex.: `payments:create`). Auditoria obrigatóri
 - `npm install`: instala dependências (Node 26, `engine-strict`, versões exatas).
 - `npm run lint`, `npm run format`, `npm run format:check`, `npm run typecheck`.
 - `npm run build -w backend`.
+- `npm run dev -w backend`: API em modo desenvolvimento (porta 3001, lê `backend/.env`).
+- `npm test`: testes (Vitest). `npm run build -w backend` e `npm run start -w backend` para o compilado.
+- Documentação OpenAPI em `/api/v1/docs` (só fora de produção). Health em `/api/v1/health`.
+- Logs: nunca registar cabeçalhos, cookies nem query strings; mensagens de erro ao cliente sem detalhes internos.

@@ -10,6 +10,20 @@ const envSchema = z.object({
   }),
   SESSION_IDLE_MINUTES: z.coerce.number().int().min(1).default(60),
   SESSION_ABSOLUTE_HOURS: z.coerce.number().int().min(1).default(12),
+  COOKIE_SECURE: z
+    .enum(['true', 'false'])
+    .default('true')
+    .transform((value) => value === 'true'),
+  ALLOWED_ORIGINS: z
+    .string()
+    .default('http://localhost:5173')
+    .transform((value) =>
+      value
+        .split(',')
+        .map((origin) => origin.trim())
+        .filter((origin) => origin.length > 0),
+    ),
+  LOGIN_RATE_LIMIT_PER_MINUTE: z.coerce.number().int().min(1).default(10),
 });
 
 export type Config = z.infer<typeof envSchema>;

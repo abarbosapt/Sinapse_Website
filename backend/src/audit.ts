@@ -12,7 +12,8 @@ export interface AuditEntry {
   details?: AuditDetails;
 }
 
-export async function recordAudit(db: Db, entry: AuditEntry): Promise<void> {
+// Aceita o cliente normal ou uma transação.
+export async function recordAudit(db: Pick<Db, 'auditLog'>, entry: AuditEntry): Promise<void> {
   await db.auditLog.create({
     data: {
       action: entry.action,

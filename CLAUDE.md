@@ -76,3 +76,7 @@ Permissões definidas no backend (ex.: `payments:create`). Auditoria obrigatóri
 - Tabelas: `users`, `sessions` (guarda hash do token), `audit_log` (só de acréscimo, com trigger). Utilizadores não se apagam, desativam-se.
 - Testes de integração: só contra `sinapse_test` em localhost (recusam outra base). Variáveis em `backend/.env`: `DATABASE_URL`, `TEST_DATABASE_URL`.
 - Erros da base de dados: registar só o nome/código, nunca parâmetros nem mensagens completas (podem conter dados pessoais).
+- Prisma fixado na major 7 (client, adapter-pg e CLI na mesma versão exata). A major 8 usa outro fluxo (contract emit, migration plan) e não deve ser instalada sem decisão. Nunca usar `npm audit fix --force`. Instalar sempre com major explícita (`prisma@7`).
+- Scripts de instalação do npm (allowScripts): só aprovar pacotes reconhecidos e necessários (hoje só esbuild); rever com `npm install-scripts ls`.
+- Autenticação (núcleo): passwords argon2id nativo (12 a 128 caracteres), token de sessão aleatório com só o hash na base de dados, sessões de 60 min de inatividade e 12 h absolutas, bloqueio de 5 falhas durante 15 min, falha de login sempre genérica. Permissões por perfil em `backend/src/auth/permissions.ts` (verificadas no backend).
+- Auditoria: ações com `actorUserId`, `entityType`, `entityId` e motivos técnicos; nunca emails nem palavras-passe nem dados pessoais.

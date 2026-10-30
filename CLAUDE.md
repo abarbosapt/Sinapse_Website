@@ -49,5 +49,21 @@ dados e na API guardar tempos em UTC com timestamptz).
 Compila, testes relevantes passam, migrações validadas, sem segredos, documentação atualizada e
 evidência verificável. Não declarar nada concluído sem prova.
 
-## Comandos
-Por definir quando o projeto for criado (instalação, desenvolvimento, testes, migrações, build).
+## Perfis de utilizador
+Administrador; Administrativo (receção e financeiro juntos, decisão da clínica: a mesma equipa
+faz ambas as funções); Profissional (médicos e terapeutas, só consulta da própria agenda, Etapa C).
+Permissões definidas no backend (ex.: `payments:create`). Auditoria obrigatória em ações financeiras.
+
+## Decisões técnicas da Etapa A
+- API: Fastify + TypeScript, validação com schemas, OpenAPI em /api/v1.
+- Base de dados: Prisma + PostgreSQL. Sessões na base de dados, cookie HttpOnly/Secure/SameSite=Lax,
+  verificação de Origin em pedidos que alteram dados. Login por email, passwords com argon2id.
+- Sessão: 60 min de inatividade, máximo 12 h. Sem 2FA na POC (evolução futura).
+- Frontend: React + Vite + React Router + TanStack Query + react-hook-form/zod + Tailwind CSS.
+- Testes: Vitest; integração contra `sinapse_test`. Playwright só na Fase 4.
+- Primeiro administrador criado por comando interativo no servidor; sem credenciais por defeito.
+
+## Comandos (raiz do repositório)
+- `npm install`: instala dependências (Node 26, `engine-strict`, versões exatas).
+- `npm run lint`, `npm run format`, `npm run format:check`, `npm run typecheck`.
+- `npm run build -w backend`.

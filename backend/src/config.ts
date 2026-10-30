@@ -8,6 +8,8 @@ const envSchema = z.object({
   DATABASE_URL: z.string().refine((value) => value.startsWith('postgresql://'), {
     message: 'tem de começar por postgresql://',
   }),
+  SESSION_IDLE_MINUTES: z.coerce.number().int().min(1).default(60),
+  SESSION_ABSOLUTE_HOURS: z.coerce.number().int().min(1).default(12),
 });
 
 export type Config = z.infer<typeof envSchema>;

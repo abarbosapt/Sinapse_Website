@@ -10,6 +10,7 @@ import {
   type ZodTypeProvider,
 } from 'fastify-type-provider-zod';
 import type { Config } from './config.js';
+import { createPrismaClient } from './db.js';
 import { healthRoutes } from './routes/health.js';
 
 export async function buildApp(config: Config) {
@@ -29,6 +30,12 @@ export async function buildApp(config: Config) {
     trustProxy: '127.0.0.1',
     bodyLimit: 1_048_576,
   }).withTypeProvider<ZodTypeProvider>();
+
+  const db = createPrismaClient(config.DATABASE_URL);
+  app.decorate('db', db);
+  app.addHook('onClose', async () => {
+    await db.$disconnect();
+  });
 
   app.setValidatorCompiler(validatorCompiler);
   app.setSerializerCompiler(serializerCompiler);

@@ -1,0 +1,37 @@
+# Dependências e builds
+node_modules/
+dist/
+build/
+coverage/
+playwright-report/
+test-results/
+.vite/
+
+# Segredos e configuração real
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+id_*
+*.htpasswd
+.htpasswd*
+
+# Backups e dumps (nunca no Git)
+backups/
+*.dump
+*.dump.*
+*.sql.gz
+*.bak
+
+# Dados de pacientes ou exportações (nunca no Git)
+data/
+exports/
+uploads/
+
+# Logs e temporários
+*.log
+logs/
+tmp/
+.DS_Store
+.vscode/

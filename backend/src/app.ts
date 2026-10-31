@@ -15,7 +15,9 @@ import type { Config } from './config.js';
 import { createPrismaClient } from './db.js';
 import { AppError } from './errors.js';
 import { authRoutes } from './routes/auth.js';
+import { auditRoutes } from './routes/audit.js';
 import { healthRoutes } from './routes/health.js';
+import { userRoutes } from './routes/users.js';
 
 declare module 'fastify' {
   interface FastifyInstance {
@@ -127,6 +129,8 @@ export async function buildApp(config: Config) {
 
   await app.register(healthRoutes, { prefix: '/api/v1' });
   await app.register(authRoutes, { prefix: '/api/v1' });
+  await app.register(userRoutes, { prefix: '/api/v1' });
+  await app.register(auditRoutes, { prefix: '/api/v1' });
 
   return app;
 }
